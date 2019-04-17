@@ -1,0 +1,24 @@
+.element-post-carousel {
+  .item-post_content {
+    padding: 15px;
+    border: 1px solid $border-color;
+  }
+  &.owl-carousel {
+    .owl-nav {
+      margin: 0;
+
+      .owl-prev,
+      .owl-next {
+        position: absolute;
+        top: 50%;
+        @include transform(translateY(-50%));
+      }
+      .owl-prev {
+        left: -70px;
+      }
+      .owl-next {
+        right: -70px;
+      }
+    }
+  }
+}
