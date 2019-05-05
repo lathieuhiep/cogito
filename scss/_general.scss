@@ -9,8 +9,9 @@ body {
   line-height: 1.8em;
   overflow-x: hidden;
   font-size: 14px;
+  letter-spacing: 1px;
   color: $color-primary;
-  font-family: $font-family-text;
+  font-family: $font-family-second;
   font-weight: $font-weight-regular;
   @include flexbox();
   @include flex-direction(column);
@@ -20,8 +21,10 @@ body {
 }
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 15px;
-  font-weight: $font-weight-bold;
+  font-weight: 600;
+  letter-spacing: 2px;
   color: $color-title;
+  font-family: $font-family-text;
 }
 h1 {
   font-size: 36px;
@@ -223,24 +226,24 @@ pre {
     margin-top: 15px;
 
     button {
+      color: #ffffff;
+      font-size: 20px;
+      line-height: inherit;
       &.owl-next,
       &.owl-prev {
         display: inline-block;
         margin: 0 5px;
-        padding: 5px 15px !important;
+        width: 46px;
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        padding: 0 !important;
         background-color: #ff5555;
-        @include border-radius(5px);
         @include transition(all 0.4s ease-in-out);
 
         &:hover {
           background-color: #333333;
         }
-      }
-      i.fa {
-        color: #ffffff;
-        font-size: 20px;
-        line-height: inherit;
-        @include transition(all 0.4s ease-in-out);
       }
     }
   }
@@ -277,6 +280,44 @@ pre {
       > .elementor-element-populated {
         &.elementor-column-wrap  {
           padding: 15px;
+        }
+      }
+    }
+  }
+}
+.elementor-shortcode {
+  form {
+    &.newsletter {
+      .tnp-field {
+        display: inline-block;
+        margin-right: 10px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+        input {
+          display: inline-block;
+          line-height: 40px;
+
+          &[type="email"] {
+            width: 350px;
+            text-transform: capitalize;
+            padding: 0 15px;
+            border: none;
+            border-bottom: 1px solid #252525;
+          }
+          &[type="submit"] {
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: $font-family-text;
+            padding: 0 30px;
+            border-radius: 0;
+            background: #252525;
+            border: 0;
+            color: #fff;
+            text-transform: uppercase;
+          }
         }
       }
     }

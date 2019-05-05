@@ -24,6 +24,26 @@ class cogito_post_carousel extends Widget_Base {
 
     protected function _register_controls() {
 
+        /* Section Heading */
+        $this->start_controls_section(
+            'section_heading',
+            [
+                'label' =>  esc_html__( 'Heading', 'cogito' )
+            ]
+        );
+
+        $this->add_control(
+            'heading',
+            [
+                'label'         =>  esc_html__( 'Heading', 'cogito' ),
+                'type'          =>  Controls_Manager::TEXT,
+                'default'       =>  esc_html__( 'FROM THE BLOG', 'cogito' ),
+                'label_block'   =>  true
+            ]
+        );
+
+        $this->end_controls_section();
+
         /* Section Query */
         $this->start_controls_section(
             'section_query',
@@ -118,7 +138,7 @@ class cogito_post_carousel extends Widget_Base {
             [
                 'label'     =>  esc_html__( 'Excerpt Words', 'cogito' ),
                 'type'      =>  Controls_Manager::NUMBER,
-                'default'   =>  '10',
+                'default'   =>  '20',
                 'condition' =>  [
                     'show_excerpt' => '1',
                 ],
@@ -399,15 +419,10 @@ class cogito_post_carousel extends Widget_Base {
         $order_post     =   $settings['order'];
 
         $data_settings  =   [
-            'number_item'           =>  $settings['item'],
-            'item_tablet'           =>  $settings['item_tablet'],
-            'item_mobile'           =>  $settings['item_mobile'],
-            'margin_item'           =>  $settings['margin_item'],
-            'margin_item_mobile'    =>  $settings['margin_item_mobile'],
-            'loop'                  =>  ( 'yes' === $settings['loop'] ),
-            'autoplay'              =>  ( 'yes' === $settings['autoplay'] ),
-            'nav'                  =>  ( 'yes' === $settings['nav'] ),
-            'dots'                  =>  ( 'yes' === $settings['dots'] ),
+            'loop'          =>  ( 'yes' === $settings['loop'] ),
+            'autoplay'      =>  ( 'yes' === $settings['autoplay'] ),
+            'nav'           =>  ( 'yes' === $settings['nav'] ),
+            'dots'          =>  ( 'yes' === $settings['dots'] ),
         ];
 
         if ( !empty( $cat_post ) ) :
@@ -439,51 +454,82 @@ class cogito_post_carousel extends Widget_Base {
 
         ?>
 
+        <div class="element-blog-posts-slider">
+            <h3 class="title text-center">
+                <?php echo esc_html( $settings['heading'] ); ?>
+            </h3>
+
             <div class="element-post-carousel owl-carousel owl-theme" data-settings='<?php echo esc_attr( wp_json_encode( $data_settings ) ); ?>'>
                 <?php while ( $query->have_posts() ): $query->the_post(); ?>
 
-                    <div class="item-post">
-                        <div class="item-post__thumbnail">
-                            <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-                                <?php if ( has_post_thumbnail() ) : ?>
+                    <div class="item-post row">
+                        <div class="col-md-6">
+                            <div class="item-post__thumbnail">
+                                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                                    <?php if ( has_post_thumbnail() ) : ?>
 
-                                    <img src="<?php echo esc_url( Group_Control_Image_Size::get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'thumbnail', $settings ) ); ?>" alt="<?php the_title(); ?>">
+                                        <img src="<?php echo esc_url( Group_Control_Image_Size::get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'thumbnail', $settings ) ); ?>" alt="<?php the_title(); ?>">
 
-                                <?php else: ?>
+                                    <?php else: ?>
 
-                                    <img src="<?php echo esc_url( get_theme_file_uri( '/images/no-image.png' ) ) ?>" alt="<?php the_title(); ?>" />
+                                        <img src="<?php echo esc_url( get_theme_file_uri( '/images/no-image.png' ) ) ?>" alt="<?php the_title(); ?>" />
 
-                                <?php endif; ?>
-                            </a>
+                                    <?php endif; ?>
+                                </a>
+                            </div>
                         </div>
 
-                        <div class="item-post_content">
-                            <h2 class="item-post__title">
-                                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-                                    <?php the_title(); ?>
-                                </a>
-                            </h2>
+                        <div class="col-md-6">
+                            <div class="item-post_content">
+                                <h2 class="item-post__title">
+                                    <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                                        <?php the_title(); ?>
+                                    </a>
+                                </h2>
 
-                            <?php if ( $settings['show_excerpt'] == 1 ) : ?>
+                                <div class="item-post__meta">
+                                    <span class="item-meta post-date">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <?php echo esc_html( get_the_date() ); ?>
+                                    </span>
 
-                                <div class="item-post__content">
-                                    <p>
+                                    <span class="item-meta post-comment">
                                         <?php
-                                        if ( has_excerpt() ) :
-                                            echo esc_html( wp_trim_words( get_the_excerpt(), $settings['excerpt_length'], '...' ) );
-                                        else:
-                                            echo esc_html( wp_trim_words( get_the_content(), $settings['excerpt_length'], '...' ) );
-                                        endif;
+                                        comments_popup_link(
+                                            esc_html__( '0 Comment', 'cogito' ),
+                                            esc_html__( '1 Comment', 'cogito' ),
+                                            esc_html__( '% Comment(s)', 'cogito' )
+                                        );
                                         ?>
-                                    </p>
+                                    </span>
                                 </div>
 
-                            <?php endif; ?>
+                                <?php if ( $settings['show_excerpt'] == 1 ) : ?>
+
+                                    <div class="item-post__content">
+                                        <p>
+                                            <?php
+                                            if ( has_excerpt() ) :
+                                                echo esc_html( wp_trim_words( get_the_excerpt(), $settings['excerpt_length'], '...' ) );
+                                            else:
+                                                echo esc_html( wp_trim_words( get_the_content(), $settings['excerpt_length'], '...' ) );
+                                            endif;
+                                            ?>
+                                        </p>
+                                    </div>
+
+                                <?php endif; ?>
+
+                                <a class="item-link-post" href="<?php the_permalink(); ?>">
+                                    <?php esc_html_e( 'Read more', 'cogito' ); ?>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
                 <?php endwhile; wp_reset_postdata(); ?>
             </div>
+        </div>
 
         <?php
 

@@ -68,6 +68,9 @@
     bottom: 0;
     left: 0;
   }
+  .element-slides__item--content {
+    position: relative;
+  }
   .element-slides__item--inner {
     padding: 50px;
     @include flexbox();

@@ -109,6 +109,7 @@ if ( did_action( 'elementor/loaded' ) ) :
      * Required: Elementor
      */
     require get_parent_theme_file_path( '/extension/elementor/elementor.php' );
+    require get_parent_theme_file_path( '/extension/elementor/function-elementor.php' );
 
 endif;
 
@@ -242,7 +243,7 @@ function cogito_register_front_end() {
     wp_enqueue_script( 'html5', get_theme_file_uri( '/js/html5.js' ), array(), '3.7.3' );
     wp_script_add_data( 'html5', 'conditional', 'lt IE 9' );
 
-    wp_enqueue_script( 'cogito-main', get_theme_file_uri( '/js/main.min.js' ), array('jquery'), '', true );
+    wp_enqueue_script( 'cogito-main', get_theme_file_uri( '/js/main.min.js' ), array(), '', true );
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );
@@ -282,19 +283,6 @@ if ( !function_exists('cogito_ilc_mce_buttons') ) :
     add_filter("mce_buttons_2", "cogito_ilc_mce_buttons");
 
 endif;
-
-// Start Customize mce editor font sizes
-if ( ! function_exists( 'cogito_mce_text_sizes' ) ) :
-
-    function cogito_mce_text_sizes( $cogito_font_size_text ){
-        $cogito_font_size_text['fontsize_formats'] = "9px 10px 12px 13px 14px 16px 17px 18px 19px 20px 21px 24px 28px 32px 36px";
-        return $cogito_font_size_text;
-    }
-
-    add_filter( 'tiny_mce_before_init', 'cogito_mce_text_sizes' );
-
-endif;
-// End Customize mce editor font sizes
 
 /* callback comment list */
 function cogito_comments( $cogito_comment, $cogito_comment_args, $cogito_comment_depth ) {
@@ -373,7 +361,8 @@ if ( ! function_exists( 'cogito_fonts_url' ) ) :
             $cogito_font_families = array();
 
             if ( 'off' !== $cogito_font_google ) {
-                $cogito_font_families[] = 'Roboto:400,700';
+                $cogito_font_families[] = 'Oswald:400,500,600';
+                $cogito_font_families[] = 'Fira Sans:300,400';
             }
 
             $cogito_query_args = array(
@@ -526,6 +515,31 @@ function cogito_get_social_url() {
 
 
 <?php
+        endif;
+
+    endforeach;
+}
+
+function cogito_get_social_title() {
+
+    global $cogito_options;
+    $cogito_social_networks = cogito_get_social_network();
+
+    foreach( $cogito_social_networks as $cogito_social ) :
+        $cogito_social_url = $cogito_options['cogito_social_network_' . $cogito_social['id']];
+
+        if( $cogito_social_url ) :
+    ?>
+
+            <div class="social-network-title-item item-<?php echo esc_attr( $cogito_social['id'] ); ?>">
+                <a href="<?php echo esc_url( $cogito_social_url ); ?>">
+                    <i class="fa fa-<?php echo esc_attr( $cogito_social['id'] ); ?>" aria-hidden="true"></i>
+                    <?php echo esc_html( $cogito_social['title'] ); ?>
+                </a>
+            </div>
+
+
+    <?php
         endif;
 
     endforeach;

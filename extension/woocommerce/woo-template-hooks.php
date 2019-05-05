@@ -7,6 +7,7 @@
 /**
  * Layout
  *
+ * @see cogito_get_cart()
  * @see cogito_woo_before_main_content()
  * @see cogito_woo_before_shop_loop_open()
  * @see cogito_woo_before_shop_loop_close()
@@ -32,6 +33,8 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_pr
 remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
 
 remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
+
+add_action( 'cogito_get_cart_item', 'cogito_get_cart', 5 );
 
 add_action( 'woocommerce_before_main_content', 'cogito_woo_before_main_content', 10 );
 

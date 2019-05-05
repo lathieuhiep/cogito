@@ -20,7 +20,7 @@ class cogito_social_widget extends WP_Widget {
             'description'   =>  'A widget that displays your social icons',
         );
 
-        parent::__construct( 'cogito_social_widget', 'Basic Theme: Social Icons', $cogito_social_widget_ops );
+        parent::__construct( 'cogito_social_widget', 'Cogito: Social Icons', $cogito_social_widget_ops );
 
     }
 
@@ -40,8 +40,8 @@ class cogito_social_widget extends WP_Widget {
 
     ?>
 		
-        <div class="social-widget social-network-toTopFromBottom">
-            <?php cogito_get_social_url(); ?>
+        <div class="social-widget">
+            <?php cogito_get_social_title(); ?>
         </div>
 
     <?php
@@ -60,7 +60,8 @@ class cogito_social_widget extends WP_Widget {
             'title' => 'Subscribe & Follow',
         );
 
-		$instance = wp_parse_args( (array) $instance, $defaults ); ?>
+		$instance = wp_parse_args( (array) $instance, $defaults );
+    ?>
 
 		<!-- Widget Title: Text Input -->
 		<p>

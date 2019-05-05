@@ -138,6 +138,14 @@
         }
       }
     }
+    &.cart_list,
+    &.product_list_widget {
+      li {
+        a {
+          font-weight: 400;
+        }
+      }
+    }
   }
   nav {
     &.woocommerce-pagination {
@@ -345,6 +353,20 @@
         &:hover {
           background-color: #ff5555;
         }
+      }
+    }
+  }
+  .widget_shopping_cart {
+    .total {
+      strong {
+        font-weight: 400;
+      }
+    }
+  }
+  &.widget_shopping_cart {
+    .total {
+      strong {
+        font-weight: 400;
       }
     }
   }

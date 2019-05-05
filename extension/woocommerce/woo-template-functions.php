@@ -45,6 +45,44 @@ function cogito_loop_columns_product() {
 }
 /* End Change number or products per row */
 
+/* Start get cart */
+if ( ! function_exists( 'cogito_get_cart' ) ):
+
+    function cogito_get_cart(){
+
+?>
+        <a class="cart-customlocation" href="<?php echo wc_get_cart_url(); ?>" title="<?php esc_html_e('View your shopping cart', 'cogito'); ?>">
+            <i class="fas fa-shopping-cart"></i>
+
+            <span class="number-cart-product">
+                <?php echo sprintf ( _n( '%d', '%d', WC()->cart->get_cart_contents_count() ), WC()->cart->get_cart_contents_count() ); ?>
+            </span>
+        </a>
+<?php
+    }
+
+endif;
+
+/* To ajaxify your cart viewer */
+add_filter( 'woocommerce_add_to_cart_fragments', 'cogito_add_to_cart_fragment' );
+
+if ( ! function_exists( 'cogito_add_to_cart_fragment' ) ) :
+
+    function cogito_add_to_cart_fragment( $cogito_fragments ) {
+
+        ob_start();
+
+        do_action( 'cogito_get_cart_item' );
+
+        $cogito_fragments['a.cart-customlocation'] = ob_get_clean();
+
+        return $cogito_fragments;
+
+    }
+
+endif;
+/* End get cart */
+
 /* Start Sidebar Shop */
 if ( ! function_exists( 'cogito_woo_get_sidebar' ) ) :
 

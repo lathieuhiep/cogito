@@ -27,7 +27,7 @@ section {
     .widget-title {
       text-transform: uppercase;
       margin-bottom: 20px;
-      font-size: 16px;
+      font-size: 15px;
     }
     ul {
       list-style: none;
@@ -35,19 +35,18 @@ section {
       padding: 0;
 
       li {
-        border-bottom: 1px solid #eee;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        margin-bottom: 12px;
+        font-weight: 300;
 
-        &:first-child {
-          padding-top: 0;
-        }
         &:last-child {
-          padding-bottom: 0;
-          border-bottom: none;
+          margin-bottom: 0;
         }
         a {
           display: block;
+
+          &:hover {
+            padding-left: 10px;
+          }
         }
         ul {
           &.children,
@@ -162,13 +161,29 @@ section {
         }
       }
     }
-    .social-network-item {
-      margin-bottom: 10px;
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      @include border-radius(50%);
+    .social-widget {
+      .social-network-title-item {
+        margin-bottom: 12px;
+
+        a {
+          font-weight: 300;
+
+          i {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 15px;
+            text-align: center;
+            margin-right: 5px;
+          }
+          &:hover {
+            padding-left: 10px;
+          }
+        }
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
     .post_widget_warp {
       .post_widget__item {

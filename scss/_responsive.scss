@@ -1,7 +1,7 @@
-@media ( min-width: 1200px ) {
+@media ( min-width: 1687px ) {
 
   .container {
-    max-width: 1200px;
+    max-width: 1687px;
   }
 
 }
@@ -42,6 +42,11 @@
       }
     }
   }
+  .icon_menu_item_mobile {
+    top: 50%;
+    right: 5px;
+    @include transform( translateY(-50%) );
+  }
 
 }
 
@@ -61,7 +66,7 @@
 
 @media ( max-width: 991px ) {
 
-  .header-bottom_warp {
+  .header-warp {
     display: block;
   }
   .information {
@@ -151,6 +156,8 @@
   }
   .icon_menu_item_mobile {
     display: block;
+    top: 15px;
+    right: 15px;
   }
 
 }
