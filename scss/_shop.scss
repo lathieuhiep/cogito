@@ -29,11 +29,13 @@
     &.onsale {
       min-width: auto;
       min-height: auto;
-      line-height: inherit;
-      padding: 5px 20px;
+      font-size: 14px;
+      line-height: 2em;
+      padding: 0 15px;
+      text-transform: uppercase;
       font-weight: 400;
       border-radius: 0;
-      background-color: $background-hover;
+      background-color: $background-primary;
     }
   }
   ul {

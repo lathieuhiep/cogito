@@ -4,9 +4,7 @@ function cogito_content_product_filter( $class_column_number, $class_animate = n
 ?>
 
     <div class="item-col <?php echo esc_attr( $class_animate . $class_column_number ); ?> col-md-3 col-sm-6 col-6">
-        <div class="item-product">
-            <a class="item-link-product" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">&nbsp;</a>
-
+        <div class="woocommerce item-product">
             <div class="item-thumbnail">
                 <?php
                 do_action( 'woo_elementor_product_sale_flash' );
@@ -18,17 +16,39 @@ function cogito_content_product_filter( $class_column_number, $class_animate = n
                     <img src="<?php echo esc_url( get_theme_file_uri( '/images/no-image.png' ) ); ?>" alt="<?php the_title(); ?>">
                 <?php endif; ?>
 
-                <div class="item-add-cart">
-                    <?php do_action( 'woo_elementor_add_to_cart' ); ?>
+                <div class="actions">
+                    <ul class="add-to-links text-center">
+                        <li>
+                            <p class="item-actions" data-toggle="tooltip" title="Quick View">
+                                <a href="#">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                            </p>
+                        </li>
+
+                        <li>
+                            <p class="item-actions" data-toggle="tooltip" title="Add to cart">
+                                <?php do_action( 'woo_elementor_add_to_cart' ); ?>
+                            </p>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="item-detail">
+            <div class="item-detail text-center">
                 <h2 class="item-title">
-                    <?php the_title(); ?>
+                    <a class="item-link-product" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                        <?php the_title(); ?>
+                    </a>
                 </h2>
 
-                <?php woocommerce_template_loop_price(); ?>
+                <div class="ratings">
+                    <?php woocommerce_template_loop_rating(); ?>
+                </div>
+
+                <div class="price-box">
+                    <?php woocommerce_template_loop_price(); ?>
+                </div>
             </div>
         </div>
     </div>

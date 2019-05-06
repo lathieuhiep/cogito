@@ -1,0 +1,143 @@
+.element-product-filter {
+  .filter-block {
+    margin-bottom: 35px;
+  }
+  .btn-filter-product {
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 2px;
+    font-family: $font-family-text;
+    border: none;
+    margin-right: 20px;
+    background-color: transparent;
+    @include transition(all 0.4s ease-in-out);
+
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover,
+    &.active {
+      color: $color-hover;
+    }
+  }
+  .item-col {
+    margin-bottom: 50px;
+  }
+  .item-product {
+    .item-thumbnail {
+      position: relative;
+    }
+    .onsale {
+      top: 15px;
+      left: 0;
+      letter-spacing: 3px;
+    }
+    .actions {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+       li {
+         width: 35px;
+         height: 35px;
+         line-height: 35px;
+         border-bottom: 1px solid #686868;
+         background-color: #383533;
+
+         &:last-child {
+           border-bottom: 0;
+         }
+         p {
+           width: inherit;
+           height: inherit;
+         }
+         a {
+           position: relative;
+           display: block;
+           color: #f6f5f1;
+           width: inherit;
+           height: inherit;
+
+           &.button {
+             font-size: 0;
+             padding: 0;
+             background-color: transparent;
+             border: none;
+
+             &:before {
+               position: absolute;
+               content: "\f291";
+               font-family: 'Font Awesome 5 Free';
+               font-weight: 900;
+               font-size: 15px;
+               top: 50%;
+               left: 50%;
+               @include transform(translateX(-50%) translateY(-50%));
+             }
+           }
+         }
+       }
+      }
+    }
+    .item-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin: 20px 0 0 0;
+      letter-spacing: 2px;
+    }
+    .ratings {
+     margin-top: 10px;
+    }
+    .star-rating {
+      display: inline-block;
+      float: none;
+      height: 18px;
+      width: 101px;
+      margin: 0;
+
+      &:before {
+        content: "\f005\f005\f005\f005\f005";
+        font-weight: 400;
+        letter-spacing: 3px;
+        font-size: 16px;
+        color: #383533;
+        font-family: 'Font Awesome 5 Free';
+      }
+      span {
+        &:before {
+          content: "\f005\f005\f005\f005\f005";
+          font-weight: 900;
+          letter-spacing: 3px;
+          font-size: 16px;
+          color: #ffd462;
+          font-family: 'Font Awesome 5 Free';
+        }
+      }
+    }
+    .price-box {
+      .price {
+        font-size: 18px;
+        margin-top: 7px;
+        font-family: $font-family-text;
+        font-weight: 600;
+
+        del {
+          font-size: 14px;
+          font-weight: 400;
+          color: $color-hover;
+        }
+        ins {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

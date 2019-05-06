@@ -82,3 +82,11 @@ add_action( 'woocommerce_after_single_product_summary', 'cogito_woo_after_single
 
 add_action( 'woocommerce_after_single_product', 'cogito_woo_after_single_product', 30 );
 
+/*
+ * Addons Elementor
+ * */
+add_action( 'woo_elementor_product_sale_flash', 'woocommerce_show_product_loop_sale_flash' );
+add_action( 'woo_elementor_product_loop_item_rating_price', 'woocommerce_template_loop_rating', 5 );
+add_action( 'woo_elementor_product_loop_item_rating_price', 'woocommerce_template_loop_price', 10 );
+add_action( 'woo_elementor_add_to_cart', 'woocommerce_template_loop_add_to_cart', 5 );
+

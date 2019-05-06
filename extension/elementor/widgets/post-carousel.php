@@ -22,6 +22,10 @@ class cogito_post_carousel extends Widget_Base {
         return 'fa fa-newspaper-o';
     }
 
+    public function get_script_depends() {
+        return ['cogito-elementor-custom'];
+    }
+
     protected function _register_controls() {
 
         /* Section Heading */

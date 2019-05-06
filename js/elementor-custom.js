@@ -10,6 +10,16 @@
     };
     /* End element slider */
 
+    /* Start element product filter */
+    let ElementProductFilter   =   function( $scope, $ ) {
+
+        let element_product_filter = $scope.find( '.element-product-filter__slider' );
+
+        $( document ).general_owlCarousel_item( element_product_filter );
+
+    };
+    /* End element product filter */
+
     /* Start element post carousel */
     let ElementPostCarousel   =   function( $scope, $ ) {
 
@@ -34,6 +44,9 @@
 
         /* Element slider */
         elementorFrontend.hooks.addAction( 'frontend/element_ready/cogito-slides.default', ElementCarouselSlider );
+
+        /* Element product filter */
+        elementorFrontend.hooks.addAction( 'frontend/element_ready/cogito-products-filter.default', ElementProductFilter );
 
         /* Element post carousel */
         elementorFrontend.hooks.addAction( 'frontend/element_ready/cogito-post-carousel.default', ElementPostCarousel );

@@ -23,43 +23,74 @@ class cogito_widget_products_filter extends Widget_Base {
     }
 
     public function get_script_depends() {
-        return ['products_filter'];
+        return ['cogito-elementor-custom'];
     }
 
     protected function _register_controls() {
 
-        /* Start Section Heading */
+        /* Start Section Filter */
         $this->start_controls_section(
-            'section_heading',
+            'section_filter',
             [
-                'label' =>  esc_html__( 'Heading', 'cogito' )
+                'label' =>  esc_html__( 'Filter', 'cogito' )
             ]
         );
 
-        $this->add_control(
-            'image_heading',
-            [
-                'label'     =>  esc_html__( 'Icon danh mục', 'cogito' ),
-                'type'      =>  Controls_Manager::MEDIA,
-                'default'   =>  [
-                    'url'   =>  Utils::get_placeholder_image_src(),
-                ],
+        $repeater = new Repeater();
+
+        $repeater->add_control(
+            'filter_list_name', [
+                'label'         =>  esc_html__( 'Title', 'cogito' ),
+                'type'          =>  Controls_Manager::TEXT,
+                'default'       =>  esc_html__( 'New' , 'cogito' ),
+                'label_block'   =>  true,
             ]
         );
 
-        $this->add_control(
-            'select_cat',
+        $repeater->add_control(
+            'filter_list_cat',
             [
-                'label'         =>  esc_html__( 'Chọn danh mục sản phẩm', 'cogito' ),
-                'type'          =>  Controls_Manager::SELECT,
+                'label'         =>  esc_html__( 'Select Category', 'cogito' ),
+                'type'          =>  Controls_Manager::SELECT2,
                 'options'       =>  cogito_check_get_cat( 'product_cat' ),
                 'multiple'      =>  true,
                 'label_block'   =>  true,
             ]
         );
 
+        $repeater->add_control(
+            'filter_list_order_by',
+            [
+                'label'     =>  esc_html__( 'Order By', 'cogito' ),
+                'type'      =>  Controls_Manager::SELECT,
+                'default'   =>  'id',
+                'options'   =>  [
+                    'id'            =>  esc_html__( 'ID', 'cogito' ),
+                    'date'          =>  esc_html__( 'Date', 'cogito' ),
+                    'total_sales'   =>  esc_html__( 'Bestsellers', 'cogito' ),
+                    'rating_count'  =>  esc_html__( 'Rating', 'cogito' ),
+                    '_featured'     =>  esc_html__( 'Featured', 'cogito' ),
+                    '_sale_price'   =>  esc_html__( 'Sale Price', 'cogito' )
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'filter_list',
+            [
+                'label'     =>  esc_html__( 'Filter List', 'cogito' ),
+                'type'      =>  Controls_Manager::REPEATER,
+                'fields'    =>  $repeater->get_controls(),
+                'default'   =>  [
+                    [
+                        'filter_list_name'    =>  esc_html__( 'New', 'cogito' ),
+                    ],
+                ],
+                'title_field' => '{{{ filter_list_name }}}',
+            ]
+        );
+
         $this->end_controls_section();
-        /* End Section Heading */
 
         /* Start Section Query */
         $this->start_controls_section(
@@ -69,49 +100,12 @@ class cogito_widget_products_filter extends Widget_Base {
             ]
         );
 
-        $repeater = new Repeater();
-
-        $repeater->add_control(
-            'list_tag_name', [
-                'label'         =>  esc_html__( 'Tiêu đề', 'cogito' ),
-                'type'          =>  Controls_Manager::TEXT,
-                'default'       =>  esc_html__( 'Từ khóa sản phẩm' , 'cogito' ),
-                'label_block'   =>  true,
-            ]
-        );
-
-        $repeater->add_control(
-            'select_tag',
-            [
-                'label'         =>  esc_html__( 'Chọn từ khóa sản phẩm', 'cogito' ),
-                'type'          =>  Controls_Manager::SELECT,
-                'options'       =>  cogito_check_get_cat( 'product_tag' ),
-                'multiple'      =>  true,
-                'label_block'   =>  true,
-            ]
-        );
-
-        $this->add_control(
-            'list_tag_product',
-            [
-                'label'     =>  esc_html__( 'Danh sách từ khóa', 'cogito' ),
-                'type'      =>  Controls_Manager::REPEATER,
-                'fields'    =>  $repeater->get_controls(),
-                'default'   =>  [
-                    [
-                        'list_tag_name'    =>  esc_html__( 'Trang điểm mặt', 'cogito' ),
-                    ],
-                ],
-                'title_field' => '{{{ list_tag_name }}}',
-            ]
-        );
-
         $this->add_control(
             'limit',
             [
-                'label'     =>  esc_html__( 'Sản phẩm lấy ra', 'cogito' ),
+                'label'     =>  esc_html__( 'Number of Products', 'cogito' ),
                 'type'      =>  Controls_Manager::NUMBER,
-                'default'   =>  12,
+                'default'   =>  16,
                 'min'       =>  1,
                 'max'       =>  100,
                 'step'      =>  1,
@@ -119,29 +113,14 @@ class cogito_widget_products_filter extends Widget_Base {
         );
 
         $this->add_control(
-            'order_by',
-            [
-                'label'     =>  esc_html__( 'Sắp xếp theo', 'cogito' ),
-                'type'      =>  Controls_Manager::SELECT,
-                'default'   =>  'id',
-                'options'   =>  [
-                    'id'    =>  esc_html__( 'ID', 'cogito' ),
-                    'title' =>  esc_html__( 'Tên sản phẩm', 'cogito' ),
-                    'date'  =>  esc_html__( 'Ngày đăng', 'cogito' ),
-                    'rand' =>  esc_html__( 'Random', 'cogito' ),
-                ],
-            ]
-        );
-
-        $this->add_control(
             'order',
             [
-                'label'     =>  esc_html__( 'Sắp xếp', 'cogito' ),
+                'label'     =>  esc_html__( 'Order', 'cogito' ),
                 'type'      =>  Controls_Manager::SELECT,
                 'default'   =>  'ASC',
                 'options'   =>  [
-                    'ASC'   =>  esc_html__( 'Sắp xếp tăng dần', 'cogito' ),
-                    'DESC'  =>  esc_html__( 'Sắp xếp giảm dần', 'cogito' ),
+                    'ASC'   =>  esc_html__( 'Ascending', 'cogito' ),
+                    'DESC'  =>  esc_html__( 'Descending', 'cogito' ),
                 ],
             ]
         );
@@ -158,19 +137,76 @@ class cogito_widget_products_filter extends Widget_Base {
         );
 
         $this->add_control(
+            'rows_number',
+            [
+                'label'     =>  esc_html__( 'Rows', 'cogito' ),
+                'type'      =>  Controls_Manager::NUMBER,
+                'default'   =>  2,
+                'min'       =>  1,
+                'max'       =>  10,
+                'step'      =>  1,
+            ]
+        );
+
+        $this->add_control(
             'column_number',
             [
-                'label'     =>  esc_html__( 'Số cột', 'dlk-addons-elementor' ),
+                'label'     =>  esc_html__( 'Column', 'cogito' ),
                 'type'      =>  Controls_Manager::SELECT,
-                'default'   =>  6,
+                'default'   =>  4,
                 'options'   =>  [
-                    6   =>  esc_html__( '6 Column', 'dlk-addons-elementor' ),
-                    5   =>  esc_html__( '5 Column', 'dlk-addons-elementor' ),
-                    4   =>  esc_html__( '4 Column', 'dlk-addons-elementor' ),
-                    3   =>  esc_html__( '3 Column', 'dlk-addons-elementor' ),
-                    2   =>  esc_html__( '2 Column', 'dlk-addons-elementor' ),
-                    1   =>  esc_html__( '1 Column', 'dlk-addons-elementor' ),
+                    4   =>  esc_html__( '4 Column', 'cogito' ),
+                    3   =>  esc_html__( '3 Column', 'cogito' ),
+                    2   =>  esc_html__( '2 Column', 'cogito' ),
+                    1   =>  esc_html__( '1 Column', 'cogito' ),
                 ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        /* Options Slides */
+        $this->start_controls_section(
+            'section_slides',
+            [
+                'label' => esc_html__( 'Slides Options', 'cogito' ),
+                'tab' => \Elementor\Controls_Manager::SECTION
+            ]
+        );
+
+        $this->add_control(
+            'loop',
+            [
+                'type'          =>  \Elementor\Controls_Manager::SWITCHER,
+                'label'         =>  esc_html__( 'Loop Slides ?', 'cogito' ),
+                'label_on'      =>  esc_html__( 'Yes', 'cogito' ),
+                'label_off'     =>  esc_html__( 'No', 'cogito' ),
+                'return_value'  =>  'yes',
+                'default'       =>  'no',
+            ]
+        );
+
+        $this->add_control(
+            'autoplay',
+            [
+                'label'         => esc_html__( 'Autoplay?', 'cogito' ),
+                'type'          => \Elementor\Controls_Manager::SWITCHER,
+                'label_on'      => esc_html__( 'Yes', 'cogito' ),
+                'label_off'     => esc_html__( 'No', 'cogito' ),
+                'return_value'  => 'yes',
+                'default'       => 'no',
+            ]
+        );
+
+        $this->add_control(
+            'nav',
+            [
+                'label'         => esc_html__( 'Nav?', 'cogito' ),
+                'type'          => \Elementor\Controls_Manager::SWITCHER,
+                'label_on'      => esc_html__( 'Yes', 'cogito' ),
+                'label_off'     => esc_html__( 'No', 'cogito' ),
+                'return_value'  => 'yes',
+                'default'       => 'yes',
             ]
         );
 
@@ -182,125 +218,144 @@ class cogito_widget_products_filter extends Widget_Base {
     protected function render() {
 
         $settings       =   $this->get_settings_for_display();
-        $select_cat     =   $settings['select_cat'];
+        $rows_number    =   $settings['rows_number'];
+        $column_number  =   $settings['column_number'];
+        $number_item    =   $rows_number * $column_number;
+        $filter_list    =   $settings['filter_list'];
         $limit          =   $settings['limit'];
-        $order_by       =   $settings['order_by'];
         $order          =   $settings['order'];
 
-        $tag_product_ids = array();
-
-        if ( $settings['list_tag_product'] ) :
-
-            foreach ( $settings['list_tag_product'] as $item_tag ) :
-
-                $tag_product_item = get_term( $item_tag['select_tag'], 'product_tag' );
-
-                $tag_product_ids[] .= $tag_product_item->term_id;
-
-            endforeach;
-
+        if ( $column_number == 4 ) :
+            $class_column_number = 'column-4 col-lg-3';
+        elseif ( $column_number == 3 ) :
+            $class_column_number = 'column-3 col-lg-4';
+        elseif ( $column_number == 2 ) :
+            $class_column_number = 'column-2 col-lg-6';
+        else:
+            $class_column_number = 'column-1 col-lg-12';
         endif;
 
-        $args = array(
-            'post_type'         =>  'product',
-            'posts_per_page'    =>  $limit,
-            'orderby'           =>  $order_by,
-            'order'             =>  $order,
-            'tax_query'         =>  array(
-                array(
-                    'taxonomy'  =>  'product_tag',
-                    'field'     =>  'id',
-                    'terms'     =>  $tag_product_ids[0],
-                ),
-            ),
-        );
+        $product_filter_settings =   [
+            'limit'     =>  $limit,
+            'order'     =>  $order
+        ];
 
-        $query = new \ WP_Query( $args );
+        $data_settings  =   [
+            'loop'          =>  ( 'yes' === $settings['loop'] ),
+            'autoplay'      =>  ( 'yes' === $settings['autoplay'] ),
+            'nav'           =>  ( 'yes' === $settings['nav'] ),
+        ];
 
-        if ( $query->have_posts() ) :
+?>
 
-            if ( $settings['column_number'] == 6 ) :
-                $class_column_number = 'column-6 col-lg-2';
-            elseif ( $settings['column_number'] == 5 ) :
-                $class_column_number = 'column-5';
-            elseif ( $settings['column_number'] == 4 ) :
-                $class_column_number = 'column-4 col-lg-3';
-            elseif ( $settings['column_number'] == 3 ) :
-                $class_column_number = 'column-3 col-lg-4';
-            elseif ( $settings['column_number'] == 2 ) :
-                $class_column_number = 'column-2 col-lg-6';
-            else:
-                $class_column_number = 'column-1 col-lg-12';
-            endif;
 
-            $product_filter_settings =   [
-                'column'    =>  $class_column_number,
-                'limit'     =>  $limit,
-                'orderby'   =>  $order_by,
-                'order'     =>  $order
-            ];
+        <div class="element-product-filter" data-settings='<?php echo esc_attr( wp_json_encode( $product_filter_settings ) ); ?>'>
+            <?php if ( !empty( $filter_list ) ) : ?>
 
-        ?>
-
-            <div class="element-product-filter element-product-grid element-product-style" data-settings='<?php echo esc_attr( wp_json_encode( $product_filter_settings ) ); ?>'>
-                <div class="top-block d-flex">
+                <div class="filter-block">
                     <?php
-                    if ( !empty( $select_cat ) ) :
-                        $term_product   =   get_term( $select_cat, 'product_cat' );
+                    $i = 0;
+                    foreach ( $filter_list as $item ) :
+
+                        if ( !empty( $item['filter_list_cat'] ) ) :
+
+                            $ids = implode( ",",$item['filter_list_cat'] );
+
+                        else:
+
+                            $ids = 0;
+
+                        endif;
+
+                        $btn_filter_settings =   [
+                            'ids'       =>  $ids,
+                            'order_by'  =>  $item['filter_list_order_by'],
+                        ];
+
                     ?>
 
-                        <div class="top-block__heading d-flex align-items-center">
-                            <?php echo wp_get_attachment_image( $settings['image_heading']['id'], 'full' ); ?>
+                        <button class="btn-filter-product<?php echo esc_attr( $i == 0 ? ' active' : '' ); ?>" data-settings='<?php echo esc_attr( wp_json_encode( $btn_filter_settings ) ); ?>'>
+                            <?php echo esc_html( $item['filter_list_name'] ); ?>
+                        </button>
 
-                            <h4 class="heading">
-                                <a href="<?php echo esc_url( get_term_link( $term_product->term_id, 'product_cat' ) ); ?>" title="<?php echo esc_attr( $term_product->name ); ?>">
-                                    <?php echo esc_html( $term_product->name ); ?>
-                                </a>
-                            </h4>
-
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-
-                    <?php endif; ?>
-
-                    <?php if ( $settings['list_tag_product'] ) : ?>
-
-                        <div class="btn-icon-list-item-mobile d-lg-none">
-                            <i class="fas fa-bars"></i>
-                        </div>
-
-                        <div class="top-block__list d-lg-flex">
-                            <?php
-                            foreach ( $settings['list_tag_product'] as $item ) :
-                                $tag_product = get_term( $item['select_tag'], 'product_tag' );
-                            ?>
-
-                                <div class="list-item d-flex">
-                                    <button class="btn-filter-product<?php echo ( $tag_product_ids[0] == $tag_product->term_id ? ' active' : '' ); ?>" data-id="<?php echo esc_attr( $tag_product->term_id ); ?>">
-                                        <?php echo esc_html( $item['list_tag_name'] ); ?>
-                                    </button>
-                                </div>
-
-                            <?php endforeach; ?>
-                        </div>
-
-                    <?php endif; ?>
+                    <?php $i++; endforeach; ?>
                 </div>
 
-                <div class="element-product-filter__row row">
+                <div class="element-product-filter__container">
                     <?php
-                    while ( $query->have_posts() ): $query->the_post();
+                    $filter_list_fist_cat = $filter_list[0]['filter_list_cat'];
 
-                        cogito_content_product_filter( $class_column_number, '' );
+                    if ( !empty( $filter_list_fist_cat ) ):
 
-                     endwhile; wp_reset_postdata();
-                     ?>
+                        $tax_query = array(
+                            'taxonomy'  =>  'product_cat',
+                            'field'     =>  'id',
+                            'terms'     =>  $filter_list_fist_cat,
+                        );
+
+                    else:
+
+                        $tax_query = '';
+
+                    endif;
+
+
+                    $args = array(
+                        'post_type'         =>  'product',
+                        'posts_per_page'    =>  $limit,
+                        'order'             =>  $order,
+                        'tax_query'         =>  $tax_query,
+                    );
+
+                    $query = new \ WP_Query( $args );
+
+                    if ( $query->have_posts() ) :
+
+                    ?>
+
+                    <div class="element-product-filter__slider owl-carousel owl-theme" data-settings='<?php echo esc_attr( wp_json_encode( $data_settings ) ); ?>'>
+                        <?php
+                        $i = 1;
+                        $total_posts    =   $query->post_count;
+                        while ( $query->have_posts() ): $query->the_post();
+                            if ( $i % $number_item == 1 ) :
+
+                        ?>
+
+                            <div class="menu-filter__row">
+                                <div class="row">
+
+                        <?php
+
+                            endif;
+
+                            cogito_content_product_filter( $class_column_number );
+
+                            if ( $i % $number_item == 0 || $i == $total_posts ) :
+                        ?>
+
+                                </div>
+                            </div>
+
+                        <?php
+
+                            endif;
+
+                            $i++;
+                        endwhile;
+                        wp_reset_postdata();
+                        ?>
+                    </div>
+
+                    <?php endif; ?>
                 </div>
-            </div>
 
-        <?php
+            <?php endif; ?>
+        </div>
 
-        endif;
+<?php
+
+
     }
 
 }
