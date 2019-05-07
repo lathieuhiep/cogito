@@ -227,8 +227,9 @@ pre {
 
     button {
       color: #ffffff;
-      font-size: 20px;
       line-height: inherit;
+      @include transition(all 0.4s ease-in-out);
+
       &.owl-next,
       &.owl-prev {
         display: inline-block;
@@ -239,7 +240,6 @@ pre {
         text-align: center;
         padding: 0 !important;
         background-color: #ff5555;
-        @include transition(all 0.4s ease-in-out);
 
         &:hover {
           background-color: #333333;

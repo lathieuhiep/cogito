@@ -140,4 +140,46 @@
       }
     }
   }
+  .owl-carousel {
+    .owl-nav {
+      margin: 0;
+
+      button {
+        position: absolute;
+        top: 50%;
+        margin: 0;
+        color: #222222;
+        font-size: 20px;
+        margin-top: -46px;
+        background-color: transparent;
+        opacity: 0;
+        visibility: hidden;
+        @include transform( translateY(-50%) );
+
+        &.owl-prev {
+          left: -22px;
+        }
+        &.owl-next {
+          right: -22px;
+        }
+        &:hover {
+          color: #ffffff;
+        }
+        &.owl-prev,
+        &.owl-next {
+          &:hover {
+            background-color: $color-hover;
+          }
+        }
+      }
+    }
+    &:hover {
+      .owl-nav {
+        button {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
 }

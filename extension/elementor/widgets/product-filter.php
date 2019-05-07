@@ -283,7 +283,10 @@ class cogito_widget_products_filter extends Widget_Base {
 
                 <div class="element-product-filter__container">
                     <?php
-                    $filter_list_fist_cat = $filter_list[0]['filter_list_cat'];
+                    $meta_query                 =   '';
+                    $filter_list_fist           =   $filter_list[0];
+                    $filter_list_fist_cat       =   $filter_list_fist['filter_list_cat'];
+                    $filter_list_fist_order_by  =   $filter_list_fist['filter_list_order_by'];
 
                     if ( !empty( $filter_list_fist_cat ) ):
 
@@ -299,12 +302,32 @@ class cogito_widget_products_filter extends Widget_Base {
 
                     endif;
 
+                    if ( $filter_list_fist_order_by == 'total_sales' ) :
+
+                        $order_by   =   'meta_value_num';
+
+                        $meta_query =   array(
+                            array(
+                                'key'       =>  'total_sales',
+                                'value'     =>  0,
+                                'compare'   =>  '>'
+                            )
+                        );
+
+                    else:
+
+                        $order_by = $filter_list_fist_order_by;
+
+                    endif;
+
 
                     $args = array(
                         'post_type'         =>  'product',
                         'posts_per_page'    =>  $limit,
+                        'orderby'           =>  $order_by,
                         'order'             =>  $order,
                         'tax_query'         =>  $tax_query,
+                        'meta_query'        =>  $meta_query
                     );
 
                     $query = new \ WP_Query( $args );
