@@ -86,7 +86,7 @@ function cogito_product_filter() {
 
     while ( $query->have_posts() ): $query->the_post();
 
-        cogito_content_product_filter( $column, 'animated  fadeInUp ' );
+        cogito_content_product_filter( $column, 'animated fadeInUp ' );
 
      endwhile; wp_reset_postdata();
 
